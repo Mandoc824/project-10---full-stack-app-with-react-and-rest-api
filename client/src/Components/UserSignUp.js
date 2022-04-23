@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../Context";
@@ -15,6 +15,9 @@ const UserSignUp = () => {
     actions: { signIn },
   } = useContext(Context);
 
+  useEffect(() => {
+    document.title = "Sign Up";
+  }, []);
   const onChange = (event) => {
     const value = event.target.value;
     switch (event.target.name) {

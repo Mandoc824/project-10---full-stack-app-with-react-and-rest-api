@@ -12,6 +12,7 @@ const Form = (props) => {
     author,
     courseId,
     onSubmit,
+    authUserName,
   } = props;
   return (
     <main>
@@ -35,21 +36,21 @@ const Form = (props) => {
                 id="courseTitle"
                 name="courseTitle"
                 type="text"
-                onChange={onChange ? onChange : null}
+                onChange={onChange}
                 defaultValue={title ? title : ""}
               />
 
               <p>
                 {author
                   ? `By ${author.firstName} ${author.lastName}`
-                  : "Author"}
+                  : `By ${authUserName}`}
               </p>
 
               <label htmlFor="courseDescription">Course Description</label>
               <textarea
                 id="courseDescription"
                 name="courseDescription"
-                onChange={onChange ? onChange : null}
+                onChange={onChange}
                 defaultValue={description ? description : ""}
               ></textarea>
             </div>
@@ -59,7 +60,7 @@ const Form = (props) => {
                 htmlFor="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                onChange={onChange ? onChange : null}
+                onChange={onChange}
                 defaultValue={estimatedTime ? estimatedTime : ""}
               />
 
@@ -67,7 +68,7 @@ const Form = (props) => {
               <textarea
                 id="materialsNeeded"
                 name="materialsNeeded"
-                onChange={onChange ? onChange : null}
+                onChange={onChange}
                 defaultValue={materials ? materials : ""}
               ></textarea>
             </div>

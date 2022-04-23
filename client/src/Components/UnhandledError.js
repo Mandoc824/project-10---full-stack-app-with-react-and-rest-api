@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const UnhandledError = () => {
+  useEffect(() => {
+    document.title = "Error";
+  }, []);
   return (
     <main>
       <div className="wrap">

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Context } from "../Context";
 
 const CourseDetail = () => {
   const [course, setCourse] = useState({});
@@ -9,9 +10,12 @@ const CourseDetail = () => {
   const [description, setDescription] = useState([]);
   const { id } = useParams();
 
+  const { authenticatedUser: authUser } = useContext(Context);
+
   const navigate = useNavigate();
 
   useEffect(() => {
+    document.title = "Course Detail";
     axios
       .get(`http://localhost:5000/api/courses/${id}`)
       .then((response) => {
@@ -35,6 +39,23 @@ const CourseDetail = () => {
       });
   }, [id, navigate]);
 
+  const deleteCourse = (event) => {
+    axios
+      .delete(`http://localhost:5000/api/courses/${id}`, {
+        auth: {
+          username: authUser.emailAddress,
+          password: authUser.password,
+        },
+      })
+      .then(() => {
+        navigate("/");
+        console.log("Course Deleted Succesfully!");
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
   console.log(author);
   return (
     <>
@@ -44,7 +65,7 @@ const CourseDetail = () => {
             <Link className="button" to={`/courses/${id}/update`}>
               Update Course
             </Link>
-            <Link className="button" to="#">
+            <Link onClick={deleteCourse} className="button" to="#">
               Delete Course
             </Link>
             <Link className="button button-secondary" to="/">

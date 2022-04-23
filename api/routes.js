@@ -98,7 +98,9 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       console.log(req.body);
-      const newCourse = await Course.create(req.body);
+      const newCourseData = req.body;
+      newCourseData.userId = req.currentUser.id;
+      const newCourse = await Course.create(newCourseData);
 
       res.setHeader("Location", `/courses/${newCourse.id}`).status(201).end();
     } catch (error) {

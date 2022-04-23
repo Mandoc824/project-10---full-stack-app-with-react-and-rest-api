@@ -6,6 +6,7 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
+    document.title = "Courses";
     axios
       .get("http://localhost:5000/api/courses")
       .then((response) => setCourses(response.data.courses));
