@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const CourseDetail = () => {
@@ -9,6 +9,8 @@ const CourseDetail = () => {
   const [description, setDescription] = useState([]);
   const { id } = useParams();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/courses/${id}`)
@@ -16,19 +18,22 @@ const CourseDetail = () => {
         const course = response.data.course;
         const materialsArr = course.materialsNeeded
           ? course.materialsNeeded.trim().split("*")
-          : null;
+          : [];
 
         const descriptionArr = course.description.split(/\r?\n/);
-        const completeMaterials = materialsArr
+        const completeMaterials = materialsArr.length
           ? materialsArr.filter((material) => material !== "")
-          : null;
+          : [];
         setDescription(descriptionArr);
         setCourse(course);
         setAuthor(course.User);
         setMaterials(completeMaterials);
       })
-      .catch((err) => console.log(err));
-  }, [id]);
+      .catch((err) => {
+        console.log(err);
+        navigate("/NotFound");
+      });
+  }, [id, navigate]);
 
   console.log(author);
   return (

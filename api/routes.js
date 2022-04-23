@@ -97,6 +97,7 @@ router.post(
   authenticateUser,
   asyncHandler(async (req, res) => {
     try {
+      console.log(req.body);
       const newCourse = await Course.create(req.body);
 
       res.setHeader("Location", `/courses/${newCourse.id}`).status(201).end();
