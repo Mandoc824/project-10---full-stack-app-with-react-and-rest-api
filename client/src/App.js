@@ -9,6 +9,7 @@ import UpdateCourse from "./Components/UpdateCourse";
 import Header from "./Components/Header";
 import UserSignUp from "./Components/UserSignUp";
 import UserSignIn from "./Components/UsersSignIn";
+import UserSignOut from "./Components/UserSignOut";
 
 //extra components
 import UnhandledError from "./Components/UnhandledError";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/courses/create" element={<CreateCourse />} />
         <Route path="/signup" element={<UserSignUp />} />
         <Route path="/signin" element={<UserSignIn />} />
+        <Route path="/signout" element={<UserSignOut />} />
         <Route path="/error" element={<UnhandledError />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

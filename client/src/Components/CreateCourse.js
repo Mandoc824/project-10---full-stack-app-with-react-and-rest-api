@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+
+import { Context } from "../Context";
 
 import Form from "./Form";
 
@@ -10,6 +12,7 @@ const CreateCourse = () => {
   const [description, setDescription] = useState("");
   const [materialsNeeded, setMaterialsNeeded] = useState("");
 
+  const { authenticatedUser: authUser } = useContext(Context);
   const pageTitle = "Create Course";
 
   const onChange = (event) => {
@@ -31,11 +34,44 @@ const CreateCourse = () => {
         console.log(value);
     }
   };
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
+    const course = {
+      title,
+      estimatedTime,
+      description,
+      materialsNeeded,
+    };
+
+    axios
+      .post(
+        "http://localhost:5000/api/courses",
+        {},
+        {
+          auth: {
+            username: authUser.emailAddress,
+            password: authUser.password,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err.response);
+        console.log(authUser);
+      });
+  };
   console.log(description);
   return (
     <>
-      <Form onChange={onChange} errors={errors} pageTitle={pageTitle} />
+      <Form
+        onSubmit={handleSubmit}
+        onChange={onChange}
+        errors={errors}
+        pageTitle={pageTitle}
+      />
     </>
   );
 };

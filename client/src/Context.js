@@ -1,40 +1,51 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import UserData from "./UserData";
 export const Context = createContext();
 
 export const Provider = (props) => {
   const cookie = Cookies.get("authenticatedUser");
-  const [authenticateUser, setAuthenticatedUser] = useState(
-    cookie ? JSON.parse(cookie) : null
-  );
+  const [authenticatedUser, setAuthenticatedUser] = useState(null);
 
-  const data = new UserData();
+  useEffect(() => {
+    if (cookie) {
+      setAuthenticatedUser(JSON.parse(cookie));
+    }
+  }, [cookie]);
+
   const signIn = async (username, password) => {
-    const user = await data.getUser(username, password);
-    if (user !== null) {
+    const response = await axios.get("http://localhost:5000/api/users", {
+      auth: {
+        username,
+        password,
+      },
+    });
+
+    if (response.data.User) {
+      const user = response.data.User;
+      user.password = password;
       setAuthenticatedUser(user);
-      console.log(user);
       Cookies.set("authenticatedUser", JSON.stringify(user), {
         expires: 1,
       });
     }
-    console.log(user);
-    return user;
+
+    return response;
   };
 
   const signOut = () => {
     setAuthenticatedUser(null);
     Cookies.remove("authenticatedUser");
   };
+
   const value = {
-    authenticateUser,
+    authenticatedUser,
     actions: {
       signIn,
       signOut,
     },
   };
+
   return <Context.Provider value={value}>{props.children}</Context.Provider>;
 };

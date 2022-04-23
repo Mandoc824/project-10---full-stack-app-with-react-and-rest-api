@@ -11,6 +11,7 @@ const Form = (props) => {
     title,
     author,
     courseId,
+    onSubmit,
   } = props;
   return (
     <main>
@@ -26,7 +27,7 @@ const Form = (props) => {
             </ul>
           </div>
         ) : null}
-        <form>
+        <form onSubmit={onSubmit}>
           <div className="main--flex">
             <div>
               <label htmlFor="courseTitle">Course Title</label>

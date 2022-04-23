@@ -30,24 +30,81 @@ const UserSignIn = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     signIn(emailAddress, password)
-      .then((user) => {
-        if (user === null) {
-          setErrors(["Sign-in was unsuccesful"]);
-        } else {
+      .then((response) => {
+        if (response.data.User) {
           navigate("/");
         }
       })
       .catch((err) => {
-        console.log(err);
-        navigate("/error");
+        if (err.response && err.response.status !== 500) {
+          if (err.response.status === 401) {
+            const errMessage = "Sign-In was unsuccessful";
+            if (emailAddress && password) {
+              setErrors((prev) => {
+                if (!prev.includes(errMessage)) return [...prev, errMessage];
+                else return [...prev];
+              });
+            } else {
+              setErrors((prev) => {
+                return prev.filter((err) => err !== errMessage);
+              });
+            }
+          }
+        } else {
+          navigate("/error");
+        }
       });
+
+    if (emailAddress === "") {
+      const missingEmailMessage = "Please provide a value for email";
+      setErrors((prev) => {
+        if (!prev.includes(missingEmailMessage))
+          return [...prev, missingEmailMessage];
+        else return [...prev];
+      });
+    } else {
+      setErrors((prev) => {
+        const missingEmailMessage = "Please provide a value for email";
+        if (prev.includes(missingEmailMessage))
+          return prev.filter((err) => err !== missingEmailMessage);
+        else return [...prev];
+      });
+    }
+
+    if (password === "") {
+      const missingPasswordMessage = "Please provide a value for password";
+      setErrors((prev) => {
+        if (!prev.includes(missingPasswordMessage))
+          return [...prev, missingPasswordMessage];
+        else return [...prev];
+      });
+    } else {
+      setErrors((prev) => {
+        const missingPasswordMessage = "Please provide a value for password";
+        if (prev.includes(missingPasswordMessage))
+          return prev.filter((err) => err !== missingPasswordMessage);
+        else return [...prev];
+      });
+    }
   };
+
   return (
     <main>
       <div className="form--centered">
         <h2>Sign In</h2>
 
+        {errors && errors.length ? (
+          <div className="validation--errors">
+            <h3>Sign In Error</h3>
+            <ul>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
         <form onSubmit={handleSubmit}>
           <label htmlFor="emailAddress">Email Address</label>
           <input
