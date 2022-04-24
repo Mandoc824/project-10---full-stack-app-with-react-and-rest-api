@@ -28,6 +28,7 @@ const CreateCourse = () => {
     switch (event.target.name) {
       case "courseTitle":
         setTitle(value);
+        console.log(title);
         break;
       case "courseDescription":
         setDescription(value);

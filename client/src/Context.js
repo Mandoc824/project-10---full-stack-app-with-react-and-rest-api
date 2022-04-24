@@ -6,7 +6,9 @@ export const Context = createContext();
 
 export const Provider = (props) => {
   const cookie = Cookies.get("authenticatedUser");
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState(
+    cookie ? JSON.parse(cookie) : null
+  );
 
   useEffect(() => {
     if (cookie) {

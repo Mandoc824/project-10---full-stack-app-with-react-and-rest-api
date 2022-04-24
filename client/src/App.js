@@ -18,6 +18,8 @@ import PrivateRoute from "./PrivateRoute";
 import UnhandledError from "./Components/UnhandledError";
 import NotFound from "./Components/NotFound";
 
+import Forbidden from "./Components/Forbidden";
+
 function App() {
   return (
     <BrowserRouter>
@@ -45,6 +47,7 @@ function App() {
         <Route path="/signin" element={<UserSignIn />} />
         <Route path="/signout" element={<UserSignOut />} />
         <Route path="/error" element={<UnhandledError />} />
+        <Route path="/forbidden" element={<Forbidden />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../Context";
 
@@ -20,6 +20,7 @@ const UpdateCourse = () => {
 
   useEffect(() => {
     document.title = "Update Course";
+
     axios
       .get(`http://localhost:5000/api/courses/${id}`)
       .then((response) => {
@@ -112,18 +113,22 @@ const UpdateCourse = () => {
 
   return (
     <>
-      <Form
-        onChange={onChange}
-        onSubmit={handleSubmit}
-        description={description}
-        estimatedTime={estimatedTime}
-        materials={materialsNeeded}
-        title={title}
-        pageTitle={pageTitle}
-        author={author}
-        courseId={courseId}
-        errors={errors}
-      />
+      {course && course.userId !== authUser.id ? (
+        <Navigate to="/forbidden" />
+      ) : (
+        <Form
+          onChange={onChange}
+          onSubmit={handleSubmit}
+          description={description}
+          estimatedTime={estimatedTime}
+          materials={materialsNeeded}
+          title={title}
+          pageTitle={pageTitle}
+          author={author}
+          courseId={courseId}
+          errors={errors}
+        />
+      )}
     </>
   );
 };

@@ -3,6 +3,9 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Context } from "../Context";
 
+//react markdown
+import ReactMardown from "react-markdown";
+
 const CourseDetail = () => {
   const [course, setCourse] = useState({});
   const [materials, setMaterials] = useState([]);
@@ -20,18 +23,11 @@ const CourseDetail = () => {
       .get(`http://localhost:5000/api/courses/${id}`)
       .then((response) => {
         const course = response.data.course;
-        const materialsArr = course.materialsNeeded
-          ? course.materialsNeeded.trim().split("*")
-          : [];
 
-        const descriptionArr = course.description.split(/\r?\n/);
-        const completeMaterials = materialsArr.length
-          ? materialsArr.filter((material) => material !== "")
-          : [];
-        setDescription(descriptionArr);
+        setDescription(course.description);
         setCourse(course);
         setAuthor(course.User);
-        setMaterials(completeMaterials);
+        setMaterials(course.materialsNeeded);
       })
       .catch((err) => {
         console.log(err);
@@ -93,9 +89,7 @@ const CourseDetail = () => {
               )}
 
               {description ? (
-                description.map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))
+                <ReactMardown>{description}</ReactMardown>
               ) : (
                 <p>No Description available</p>
               )}
@@ -111,9 +105,7 @@ const CourseDetail = () => {
               <h3 className="course--detail--title">Materials Needed</h3>
               <ul className="course--detail--list">
                 {materials ? (
-                  materials.map((material, index) => (
-                    <li key={index}>{material}</li>
-                  ))
+                  <ReactMardown>{materials}</ReactMardown>
                 ) : (
                   <li>No Materials Listed</li>
                 )}

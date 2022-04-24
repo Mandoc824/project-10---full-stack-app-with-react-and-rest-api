@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import { Context } from "../Context";
 
@@ -9,6 +9,9 @@ const UserSignIn = () => {
   const [errors, setErrors] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
   const {
     actions: { signIn },
   } = useContext(Context);
@@ -37,7 +40,7 @@ const UserSignIn = () => {
     signIn(emailAddress, password)
       .then((response) => {
         if (response.data.User) {
-          navigate("/");
+          navigate(from, { replace: true });
         }
       })
       .catch((err) => {

@@ -29,9 +29,6 @@ module.exports = (sequelize, DataTypes) => {
           },
           notEmpty: "Please provide a title",
         },
-        set(val) {
-          if (val === "" || val === null) return;
-        },
       },
       description: {
         type: DataTypes.TEXT,
