@@ -130,10 +130,11 @@ router.put(
         if (!req.body.description)
           errors.push("Please provide a description to update");
 
-        if (errors.length > 0) {
+        if (errors.length) {
           res.status(400).json({ errors });
         } else {
           await course.update(req.body);
+          console.log(req.body);
           res.status(204).end();
         }
       }

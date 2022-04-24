@@ -6,6 +6,7 @@ import { Context } from "../Context";
 import Form from "./Form";
 
 const UpdateCourse = () => {
+  const [errors, setErrors] = useState("");
   const [title, setTitle] = useState("");
   const [estimatedTime, setEstimatedTime] = useState("");
   const [course, setCourse] = useState(null);
@@ -48,10 +49,11 @@ const UpdateCourse = () => {
   const onChange = (event) => {
     const value = event.target.value;
     switch (event.target.name) {
-      case "title":
+      case "courseTitle":
         setTitle(value);
+        console.log(value);
         break;
-      case "description":
+      case "courseDescription":
         setDescription(value);
         break;
       case "estimatedTime":
@@ -64,9 +66,10 @@ const UpdateCourse = () => {
         console.log(value);
     }
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(title);
+
     const updatedCourse = {
       id,
       title,
@@ -85,9 +88,25 @@ const UpdateCourse = () => {
       .then((response) => {
         navigate(`/courses/${id}`);
         console.log(response);
+        console.log(title);
       })
       .catch((err) => {
         console.log(err.response);
+        if (err.response && err.response.status !== 500) {
+          console.log(err.response.data.errors);
+          if (err.response.status === 400) {
+            const {
+              response: {
+                data: { errors },
+              },
+            } = err;
+            setErrors(errors);
+          } else if (err.response.status === 403) {
+            navigate("/forbidden");
+          }
+        } else {
+          navigate("/error");
+        }
       });
   };
 
@@ -103,6 +122,7 @@ const UpdateCourse = () => {
         pageTitle={pageTitle}
         author={author}
         courseId={courseId}
+        errors={errors}
       />
     </>
   );

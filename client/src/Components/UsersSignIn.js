@@ -114,14 +114,14 @@ const UserSignIn = () => {
             id="emailAddress"
             name="emailAddress"
             type="email"
-            onChange={onChange}
+            onInput={onChange}
           />
           <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
             type="password"
-            onChange={onChange}
+            onInput={onChange}
           />
 
           <button className="button" type="submit">

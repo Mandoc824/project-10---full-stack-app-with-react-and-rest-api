@@ -57,7 +57,11 @@ const UserSignUp = () => {
         if (err.response && err.response.status !== 500) {
           console.log(err.response.data.errors);
           if (err.response.status === 400) {
-            const errors = err.response.data.errors;
+            const {
+              response: {
+                data: { errors },
+              },
+            } = err;
             setErrors(errors);
           }
         } else {
@@ -86,7 +90,7 @@ const UserSignUp = () => {
             name="firstName"
             type="text"
             defaultValue=""
-            onChange={onChange}
+            onInput={onChange}
           />
           <label htmlFor="lastName">Last Name</label>
           <input
@@ -94,7 +98,7 @@ const UserSignUp = () => {
             name="lastName"
             type="text"
             defaultValue=""
-            onChange={onChange}
+            onInput={onChange}
           />
           <label htmlFor="emailAddress">Email Address</label>
           <input
@@ -102,7 +106,7 @@ const UserSignUp = () => {
             name="emailAddress"
             type="email"
             defaultValue=""
-            onChange={onChange}
+            onInput={onChange}
           />
           <label htmlFor="password">Password</label>
           <input
@@ -110,7 +114,7 @@ const UserSignUp = () => {
             name="password"
             type="password"
             defaultValue=""
-            onChange={onChange}
+            onInput={onChange}
           />
           <button className="button" type="submit">
             Sign Up

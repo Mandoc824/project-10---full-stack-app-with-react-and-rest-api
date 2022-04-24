@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 const Form = (props) => {
   const {
     errors,
@@ -36,7 +36,7 @@ const Form = (props) => {
                 id="courseTitle"
                 name="courseTitle"
                 type="text"
-                onChange={onChange}
+                onInput={onChange}
                 defaultValue={title ? title : ""}
               />
 
@@ -50,7 +50,7 @@ const Form = (props) => {
               <textarea
                 id="courseDescription"
                 name="courseDescription"
-                onChange={onChange}
+                onInput={onChange}
                 defaultValue={description ? description : ""}
               ></textarea>
             </div>
@@ -60,7 +60,7 @@ const Form = (props) => {
                 htmlFor="estimatedTime"
                 name="estimatedTime"
                 type="text"
-                onChange={onChange}
+                onInput={onChange}
                 defaultValue={estimatedTime ? estimatedTime : ""}
               />
 
@@ -68,7 +68,7 @@ const Form = (props) => {
               <textarea
                 id="materialsNeeded"
                 name="materialsNeeded"
-                onChange={onChange}
+                onInput={onChange}
                 defaultValue={materials ? materials : ""}
               ></textarea>
             </div>

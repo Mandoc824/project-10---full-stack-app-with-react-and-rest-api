@@ -39,7 +39,7 @@ const CourseDetail = () => {
       });
   }, [id, navigate]);
 
-  const deleteCourse = (event) => {
+  const deleteCourse = () => {
     axios
       .delete(`http://localhost:5000/api/courses/${id}`, {
         auth: {
@@ -56,18 +56,21 @@ const CourseDetail = () => {
       });
   };
 
-  console.log(author);
   return (
     <>
       <main>
         <div className="actions--bar">
           <div className="wrap">
-            <Link className="button" to={`/courses/${id}/update`}>
-              Update Course
-            </Link>
-            <Link onClick={deleteCourse} className="button" to="#">
-              Delete Course
-            </Link>
+            {authUser && authUser.id === course.userId ? (
+              <>
+                <Link className="button" to={`/courses/${id}/update`}>
+                  Update Course
+                </Link>
+                <Link onClick={deleteCourse} className="button" to="#">
+                  Delete Course
+                </Link>
+              </>
+            ) : null}
             <Link className="button button-secondary" to="/">
               Return to List
             </Link>
